@@ -30,7 +30,7 @@ def spanner_update_dml_returning project_id:, instance_id:, database_id:
   client.transaction do |transaction|
     results = transaction.execute_query "UPDATE Albums SET MarketingBudget = MarketingBudget * 2 WHERE SingerId = 1 and AlbumId = 1 THEN RETURN MarketingBudget"
     results.rows.each do |row|
-      puts "MarketingBudget: #{row[:SingerId]}"
+      puts "MarketingBudget: #{row[:MarketingBudget]}"
     end
     puts "Updated row(s) count: #{results.row_count}"
   end
