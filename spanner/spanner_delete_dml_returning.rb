@@ -36,7 +36,7 @@ def spanner_delete_dml_returning project_id:, instance_id:, database_id:
   client.transaction do |transaction|
     results = transaction.execute_query "DELETE FROM Singers WHERE FirstName = 'Alice' THEN RETURN SingerId, FullName"
     results.rows.each do |row|
-      puts "SingerId: #{row[:SingerId]} FullName: #{row[:FullName]}"
+      puts "SingerId: #{row[:SingerId]}, FullName: #{row[:FullName]}"
     end
     puts "Deleted row(s) count: #{results.row_count}"
   end
