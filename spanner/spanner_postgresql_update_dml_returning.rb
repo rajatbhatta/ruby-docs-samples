@@ -30,9 +30,9 @@ def spanner_postgresql_update_dml_returning project_id:, instance_id:, database_
   # Update MarketingBudget column for records satisfying
   # a particular condition and returns the modified
   # MarketingBudget column of the updated records using
-  # ‘THEN RETURN MarketingBudget’.
+  # ‘RETURNING MarketingBudget’.
   # It is also possible to return all columns of all the
-  # updated records by using ‘THEN RETURN *’.
+  # updated records by using ‘RETURNING *’.
   client.transaction do |transaction|
     results = transaction.execute_query "UPDATE Singers SET MarketingBudget = MarketingBudget * 2 WHERE SingerId = 1 and AlbumId = 1 RETURNING MarketingBudget"
     results.rows.each do |row|
