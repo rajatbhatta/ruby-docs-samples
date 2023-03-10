@@ -27,10 +27,15 @@ def spanner_insert_dml_returning project_id:, instance_id:, database_id:
   spanner = Google::Cloud::Spanner.new project: project_id
   client = spanner.client instance_id, database_id
 
+  # Insert records into the SINGERS table and returns the
+  # generated column FullName of the inserted records using
+  # ‘THEN RETURN FullName’.
+  # It is also possible to return all columns of all the
+  # inserted records by using ‘THEN RETURN *’.
   client.transaction do |transaction|
-    results = transaction.execute_query "INSERT INTO Singers (SingerId, FirstName, LastName) VALUES (12, 'Melissa', 'Garcia'), (13, 'Russell', 'Morales'), (14, 'Jacqueline', 'Long'), (15, 'Dylan', 'Shaw') THEN RETURN *"
+    results = transaction.execute_query "INSERT INTO Singers (SingerId, FirstName, LastName) VALUES (12, 'Melissa', 'Garcia'), (13, 'Russell', 'Morales'), (14, 'Jacqueline', 'Long'), (15, 'Dylan', 'Shaw') THEN RETURN FullName"
     results.rows.each do |row|
-      puts "Inserted singers with id: #{row[:SingerId]}, FirstName: #{row[:FirstName]}"
+      puts "FullName: #{row[:FullName]}"
     end
     puts "Inserted row(s) count: #{results.row_count}"
   end
